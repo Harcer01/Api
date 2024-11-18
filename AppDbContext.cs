@@ -22,14 +22,19 @@ namespace Api
         {
             modelBuilder.Entity<DataRecord>().ToTable("DataRecords");
 
-            modelBuilder.Entity<DataRecord>()
-                .Property(d => d.Date)
-                .HasConversion(
-                    v => ((DateTimeOffset)v).ToUnixTimeSeconds(), // Преобразуем DateTime в Unix timestamp (long) для хранения
-                    v => DateTimeOffset.FromUnixTimeSeconds(v).UtcDateTime // Преобразуем Unix timestamp (long) обратно в DateTime
-                );
+            //modelBuilder.Entity<DataRecord>()
+            //    .Property(d => d.Date)
+            //    .HasConversion(
+            //        v => ((DateTimeOffset)v).ToUnixTimeSeconds(), // Преобразуем DateTime в Unix timestamp (long) для хранения
+            //        v => DateTimeOffset.FromUnixTimeSeconds(v).UtcDateTime // Преобразуем Unix timestamp (long) обратно в DateTime
+            //    );
         }
-
+        public async Task<DataRecord> GetLastRecordAsync()
+        {
+            return await DataRecords
+                .OrderByDescending(d => d.Id)  // Сортируем по Id в убывающем порядке
+                .FirstOrDefaultAsync();        // Берем первый элемент или null, если таблица пустая
+        }
     }
 
 }

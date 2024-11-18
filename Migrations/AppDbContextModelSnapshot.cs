@@ -37,11 +37,11 @@ namespace Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("Date")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Date")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<string>("Time")
                         .IsRequired()

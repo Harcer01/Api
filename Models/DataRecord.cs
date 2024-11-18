@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,18 @@ namespace Api.Models
         public string Coin { get; set; }
         public string Currency { get; set; }
         public string Time { get; set; }
-        public decimal Price { get; set; }
-        public DateTime Date { get; set; }
+        public int Price { get; set; }
+        public int Date { get; set; }
+
+        public DataRecord(int id, string coin, string currency, string time, int price, int date)
+        {
+            Id = id;
+            Coin = coin;  
+            Currency = currency;
+            Time = time;
+            Price = price;
+            Date = date;
+        }
     }
 
 }

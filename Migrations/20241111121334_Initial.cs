@@ -20,8 +20,8 @@ namespace Api.Migrations
                     Coin = table.Column<string>(type: "text", nullable: false),
                     Currency = table.Column<string>(type: "text", nullable: false),
                     Time = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false),
-                    Date = table.Column<long>(type: "bigint", nullable: false)
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

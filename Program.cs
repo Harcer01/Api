@@ -17,7 +17,8 @@ class Program
         Console.Write("Введите базовую валюту (например, USD): ");
         string currency = Console.ReadLine();
 
-        var options = new RestClientOptions($"https://api.metatracker.pro/api/currency/{coin}/chart?base={currency}&period={time}");
+        //var options = new RestClientOptions($"https://api.metatracker.pro/api/currency/{coin}/chart?base={currency}&period={time}");
+        var options = new RestClientOptions($"https://api.metatracker.pro/api/currency/bitcoin/chart?base=USD&period=1d");
         var client = new RestClient(options);
         var request = new RestRequest();
         request.AddHeader("accept", "application/json");
@@ -33,21 +34,25 @@ class Program
 
                 try
                 {
-                    var currencyRecords = JsonSerializer.Deserialize<List<DataRecord>>(jsonResponse);
+                    var currencyRecords = JsonSerializer.Deserialize<DataRes>(jsonResponse);
                     if (currencyRecords != null)
                     {
                         // Сохраняем данные в базу данных
                         using (var dbContext = new AppDbContext())
                         {
-                            foreach (var record in currencyRecords)
+                            DataRecord lastIndex = await dbContext.GetLastRecordAsync();
+                            Console.WriteLine(lastIndex.Id);
+                            for (int i = 0; i < currencyRecords.data.Count; i++)
                             {
-                                record.Coin = coin;
-                                record.Currency = currency;
-                                record.Time = time;
-                                record.Date = DateTime.UtcNow; // Сохраняем время запроса
+                                var record = currencyRecords.data[i]; // Текущая запись
+                                int id = i + 1 + lastIndex.Id; // Индекс +1 (чтобы начать с 1, а не с 0)
 
-                                dbContext.DataRecords.Add(record);
+                                DataRecord dataRecord = new DataRecord(id, coin, currency, time, (int)record.value, (int)record.time); // Преобразуем данные в нужные типы
+
+                                dbContext.DataRecords.Add(dataRecord);
                             }
+
+
                             await dbContext.SaveChangesAsync();
                         }
 

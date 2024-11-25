@@ -10,11 +10,11 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        Console.Write("Введите криптовалюту: ");
+        //Console.Write("Введите криптовалюту: ");
         string coin = Console.ReadLine();
-        Console.Write("Введите период времени (например, 1d, 1y): ");
+        //Console.Write("Введите период времени (например, 1d, 1y): ");
         string time = Console.ReadLine();
-        Console.Write("Введите базовую валюту (например, USD): ");
+        //Console.Write("Введите базовую валюту (например, USD): ");
         string currency = Console.ReadLine();
 
         //var options = new RestClientOptions($"https://api.metatracker.pro/api/currency/{coin}/chart?base={currency}&period={time}");
